@@ -2,10 +2,6 @@ module "secrets" {
   source = "./modules/secrets"
   environment = var.environment
   project_name = var.project_name
-  rds_credentials = var.rds_credentials
-  webserver_fernet_key = var.webserver_fernet_key
-  webserver_secret_key = var.webserver_secret_key
-  webserver_admin_credentials = var.webserver_admin_credentials
 }
 
 module "networking" {
@@ -55,6 +51,7 @@ module "storage" {
   subnet_ids = module.networking.private_subnet_ids
   vpc_default_security_group_id = module.networking.vpc_default_security_group_id
   dag_repo_access_token = module.secrets.dag_repo_access_token
+  dag_repo_url_template = var.dag_repo_url_template
 }
 
 module "containers" {

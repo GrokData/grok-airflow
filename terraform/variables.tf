@@ -38,12 +38,6 @@ variable "availability_zones" {
   type = list(string)
 }
 
-variable "rds_credentials" {
-  description = "Credentials for the RDS instance"
-  type = map(string)
-  sensitive = true
-}
-
 variable "rds_allocated_storage" {
   description = "Allocated storage in gibibytes"
   type = number
