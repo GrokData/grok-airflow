@@ -26,3 +26,6 @@ worker_cpu = 1024 * 1
 worker_memory = 1024 * 2
 worker_desired_count = 1
 
+
+# DAGs
+dag_repo_url_template = "https://{}@github.com/GrokData/grok-airflow-dags.git"

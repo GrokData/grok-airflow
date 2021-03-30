@@ -157,3 +157,10 @@ variable "load_example_dags" {
   type = string
   default = "n"
 }
+
+variable "dag_repo_url_template" {
+  description = "Format string (Python) for the https url representing the DAG repo with a PAT. e.g. https://{}@github.com/GrokData/grok-airflow-dags.git"
+  default = "https://{}@github.com/GrokData/grok-airflow-dags.git"
+  type = string
+  sensitive = true
+}

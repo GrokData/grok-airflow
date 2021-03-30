@@ -53,6 +53,8 @@ module "storage" {
   vpc_id = module.networking.vpc_id
   vpc_cidr = module.networking.vpc_cidr
   subnet_ids = module.networking.private_subnet_ids
+  vpc_default_security_group_id = module.networking.vpc_default_security_group_id
+  dag_repo_access_token = module.secrets.dag_repo_access_token
 }
 
 module "containers" {

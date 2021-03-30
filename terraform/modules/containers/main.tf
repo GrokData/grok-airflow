@@ -52,7 +52,11 @@ resource "aws_ecs_task_definition" "init_task" {
         {
           name = "AIRFLOW_ADMIN_PWD"
           value = var.webserver_admin_password
-        }
+        },
+        {
+          name = "AIRFLOW__CORE__FERNET_KEY"
+          value = var.webserver_fernet_key
+        },
       ]
       logConfiguration = {
         logDriver = "awslogs"
@@ -123,7 +127,7 @@ resource "aws_ecs_task_definition" "webserver_task" {
       }
       mountPoints= [
           {
-              containerPath= "/usr/local/dag-repo",
+              containerPath= "/usr/local/airflow/dag-repo/",
               sourceVolume= "efs-dag-repo"
           }
       ],
@@ -134,7 +138,7 @@ resource "aws_ecs_task_definition" "webserver_task" {
     name      = "efs-dag-repo"
     efs_volume_configuration {
       file_system_id = var.dag_efs_id
-      root_directory = "/"
+      root_directory = "/efs/dag-repo"
     }
   }
 }
@@ -256,7 +260,11 @@ resource "aws_ecs_task_definition" "scheduler_task" {
         {
           name = "LOAD_EX"
           value = var.load_example_dags
-        }
+        },
+        {
+          name = "AIRFLOW__CORE__FERNET_KEY"
+          value = var.webserver_fernet_key
+        },
       ]
       logConfiguration = {
         logDriver = "awslogs"
@@ -268,7 +276,7 @@ resource "aws_ecs_task_definition" "scheduler_task" {
       }
       mountPoints= [
           {
-              containerPath= "/usr/local/dag-repo",
+              containerPath= "/usr/local/airflow/dag-repo/",
               sourceVolume= "efs-dag-repo"
           }
       ],
@@ -279,7 +287,7 @@ resource "aws_ecs_task_definition" "scheduler_task" {
     name      = "efs-dag-repo"
     efs_volume_configuration {
       file_system_id = var.dag_efs_id
-      root_directory = "/"
+      root_directory = "/efs/dag-repo"
     }
   }
 }
@@ -333,7 +341,11 @@ resource "aws_ecs_task_definition" "worker_task" {
         {
           name = "LOAD_EX"
           value = var.load_example_dags
-        }
+        },
+        {
+          name = "AIRFLOW__CORE__FERNET_KEY"
+          value = var.webserver_fernet_key
+        },
       ]
       portMappings = [
         {
@@ -351,7 +363,7 @@ resource "aws_ecs_task_definition" "worker_task" {
       }
       mountPoints= [
           {
-              containerPath= "/usr/local/dag-repo",
+              containerPath= "/usr/local/airflow/dag-repo/",
               sourceVolume= "efs-dag-repo"
           }
       ],
@@ -362,7 +374,7 @@ resource "aws_ecs_task_definition" "worker_task" {
     name      = "efs-dag-repo"
     efs_volume_configuration {
       file_system_id = var.dag_efs_id
-      root_directory = "/"
+      root_directory = "/efs/dag-repo"
     }
   }
 }
