@@ -385,10 +385,13 @@ resource "aws_ecs_service" "worker_service" {
   cluster = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.worker_task.arn
   desired_count = var.worker_desired_count
-  launch_type = "FARGATE"
   force_new_deployment = true
   network_configuration {
     subnets = var.worker_subnets
     security_groups = [var.vpc_default_security_group_id]
+  }
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE_SPOT"
+    weight = 1
   }
 }
