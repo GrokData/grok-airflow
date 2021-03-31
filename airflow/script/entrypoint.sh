@@ -60,6 +60,13 @@ if [ "$AIRFLOW__CORE__EXECUTOR" != "SequentialExecutor" ]; then
 fi
 
 
+# Install custom python package if requirements.txt is present
+if [ -e "${AIRFLOW_HOME}/dag-repo/requirements.txt" ]; then
+    echo "Installing from requirements.txt"
+    $(command -v pip) install --user -r "${AIRFLOW_HOME}/dag-repo/requirements.txt"
+fi
+
+
 case "$1" in
   init)
     airflow db init && \
@@ -83,10 +90,6 @@ case "$1" in
   worker)
     # Give the webserver time to run initdb.
     sleep 30
-    # Install custom python package if requirements.txt is present
-    if [ -e "/usr/local/dag-repo/requirements.txt" ]; then
-        $(command -v pip) install --user -r /usr/local/dag-repo/requirements.txt
-    fi
     exec airflow celery "$@"
     ;;
   flower)
