@@ -93,24 +93,6 @@ variable "webserver_memory" {
   type = number
 }
 
-variable "webserver_secret_key" {
-  description = "Secret key to assign to webserver Flask app"
-  type = string
-  sensitive = true
-}
-
-variable "webserver_fernet_key" {
-  description = "Fernet key to assign to webserver Flask app"
-  type = string
-  sensitive = true
-}
-
-variable "webserver_admin_credentials" {
-  description = "Admin credentials to user for the airflow webserver"
-  type = map(string)
-  sensitive = true
-}
-
 variable "webserver_desired_count" {
   description = "Desired count for webserver service tasks"
   type = number
